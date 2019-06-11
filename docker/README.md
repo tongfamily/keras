@@ -12,6 +12,8 @@ quick links here:
 * [OSX](https://docs.docker.com/installation/mac/): [docker toolbox](https://www.docker.com/toolbox)
 * [ubuntu](https://docs.docker.com/installation/ubuntulinux/)
 
+This Makefile requires nvidia running and nvidia-docker
+
 ## Running the container
 
 We are using `Makefile` to simplify docker commands within make commands.

@@ -14,6 +14,9 @@ SRC?=$(shell dirname `pwd`)
 DOCKER_ORG=keras
 DOCKER_REPO=keras
 
+nogpu:
+	docker build -t $(DOCKER_ORG)/$(DOCKER_REPO):nogpu  --build-arg python_version=$(PYTHON_VERSION) -f $(DOCKER_FILE).nogpu .
+
 build:
 	docker build -t $(DOCKER_ORG)/$(DOCKER_REPO) --build-arg python_version=$(PYTHON_VERSION) --build-arg cuda_version=$(CUDA_VERSION) --build-arg cudnn_version=$(CUDNN_VERSION) -f $(DOCKER_FILE) .
 
@@ -24,6 +27,7 @@ ipython: build
 	$(DOCKER) run -it -v $(SRC):/src/workspace -v $(DATA):/data --env KERAS_BACKEND=$(BACKEND) keras ipython
 
 notebook: build
+nogpu-notebook: nogpu
 	$(DOCKER) run -it -v $(SRC):/src/workspace -v $(DATA):/data -p 8888:8888 --env KERAS_BACKEND=$(BACKEND) keras
 	# this works only for linux not for macos
 	# $(DOCKER) run -it -v $(SRC):/src/workspace -v $(DATA):/data -p 8888:8888 --net=host --env KERAS_BACKEND=$(BACKEND) keras
